@@ -4,19 +4,19 @@ import "./App.css";
 import React from "react";
 
 export default function App() {
-  const [square, setSquare] = React.useState(Boxes);
+  const [squares, setSquare] = React.useState(Boxes);
 
-  function toggleBox(){
-    setSquare(prevVal => ({
-      id : prevVal.id + 1,
-      on : !prevVal.on
-    }))
+  function toggleBox(id) {
+    setSquare((prevVal) => {
+      return prevVal.map((square) => {
+        return square.id === id ? { ...square, on: !square.on } : square
+      })
+    })
   }
 
-  const box = Boxes.map((item) => <Box {...item} handleClick ={toggleBox}/>);
+  const box = squares.map((square) => (
+    <Box key={square.id} id={square.id} on={square.on} toggle={toggleBox} />
+  ));
 
-  return <>
-    {box}
-  </>;
+  return <>{box}</>;
 }
-
